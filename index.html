@@ -3,20 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warung Digital Live - Admin & Dapur</title>
+    <title>Dapur Live - Cak Kapit</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --pedas: #ff1744; --biasa: #00e676; --bg: #f0f2f5; --accent: #ff6b35; --mawut-blue: #e3f2fd; }
+        :root { 
+            --pedas: #ff1744; 
+            --biasa: #00e676; 
+            --bg: #f0f2f5; 
+            --accent: #ff6b35; 
+            --mawut-blue: #e3f2fd; 
+            --home-color: #f1c40f;
+        }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--bg); margin: 0; padding: 10px; }
         
         /* Navigasi Tab */
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; background: var(--bg); padding: 10px 0; }
-        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; background: #d1d5db; font-size: 13px; transition: 0.3s; }
+        .nav-tabs { 
+            display: flex; 
+            gap: 5px; 
+            margin-bottom: 15px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            background: var(--bg); 
+            padding: 10px 0; 
+        }
+        .tab-btn { 
+            flex: 1; 
+            padding: 12px 2px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            background: #d1d5db; 
+            font-size: 11px; 
+            transition: 0.3s;
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .tab-btn i { font-size: 14px; margin-bottom: 3px; }
         .tab-btn.active { background: #1f2937; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        
+        .btn-home { background: var(--home-color) !important; color: #000 !important; flex: 0.6; }
+
         .section { display: none; max-width: 500px; margin: 0 auto; }
         .section.active { display: block; }
 
@@ -26,7 +60,7 @@
         .btn-kirim { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; }
 
         /* Kartu Pesanan Dapur */
-        .order-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 15px; border-left: 12px solid; box-shadow: 0 6px 15px rgba(0,0,0,0.08); position: relative; animation: slideUp 0.3s ease; }
+        .order-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 15px; border-left: 12px solid; box-shadow: 0 6px 15px rgba(0,0,0,0.08); animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .PEDAS { border-left-color: var(--pedas); }
@@ -37,14 +71,11 @@
         .label-rasa { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: white; }
         .bg-pedas { background: var(--pedas); }
         .bg-biasa { background: var(--biasa); }
-
         .porsi-main { font-size: 32px; font-weight: 900; color: #222; margin: 10px 0; display: block; }
         
-        /* Box Instruksi KHUSUS MAWUT */
+        /* Box Instruksi MAWUT */
         .mawut-instruction { background: var(--mawut-blue); padding: 12px; border-radius: 12px; font-size: 15px; margin: 12px 0; color: #0d47a1; border: 1px solid #90caf9; }
-        .mawut-instruction b { color: #d32f2f; font-size: 18px; }
-
-        .btn-done { width: 100%; padding: 15px; background: #059669; color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn-done { width: 100%; padding: 15px; background: #059669; color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; }
 
         /* History */
         .history-card { background: white; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #9ca3af; font-size: 14px; }
@@ -53,6 +84,9 @@
 <body>
 
     <div class="nav-tabs">
+        <a href="https://aprisloji172000.github.io/dasboard-/" class="tab-btn btn-home">
+            <i class="fas fa-home"></i> HOME
+        </a>
         <button class="tab-btn active" onclick="openTab('input', this)"><i class="fas fa-user-tie"></i> ADMIN</button>
         <button class="tab-btn" onclick="openTab('dapur', this)"><i class="fas fa-fire"></i> DAPUR</button>
         <button class="tab-btn" onclick="openTab('history', this)"><i class="fas fa-list"></i> REKAP</button>
@@ -67,16 +101,13 @@
                 <option value="Mie Goreng">Mie Goreng</option>
                 <option value="Mawut">Mawut (Campur)</option>
             </select>
-            
             <label style="font-size: 11px; font-weight: bold; color: #888;">RASA</label>
             <select id="m-rasa">
                 <option value="BIASA">BIASA</option>
                 <option value="PEDAS">PEDAS</option>
             </select>
-            
             <label style="font-size: 11px; font-weight: bold; color: #888;">TOTAL PORSI</label>
             <input type="number" id="m-qty" placeholder="Jumlah porsi..." min="1">
-            
             <button onclick="kirimKeDapur()" class="btn-kirim">KIRIM KE MONITOR DAPUR</button>
         </div>
     </div>
@@ -101,12 +132,11 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // 1. KIRIM DATA
+    // 1. KIRIM DATA KE FIREBASE
     function kirimKeDapur() {
         const menu = document.getElementById('m-menu').value;
         const rasa = document.getElementById('m-rasa').value;
         const qty = parseInt(document.getElementById('m-qty').value);
-        
         if(!qty || qty < 1) return alert("Isi jumlah porsi!");
 
         let sisa = qty;
@@ -124,24 +154,21 @@
         document.getElementById('m-qty').value = "";
     }
 
-    // 2. MONITOR DAPUR (Instruksi KHUSUS MAWUT SAJA)
+    // 2. MONITOR LAYAR DAPUR
     db.ref('antrian').on('value', (snapshot) => {
         const data = snapshot.val();
         const container = document.getElementById('list-antrian');
         container.innerHTML = "";
         
         if(!data) {
-            container.innerHTML = '<div style="text-align:center; padding:50px; color:#aaa;"><i class="fas fa-check-double fa-3x"></i><p>Dapur bersih.</p></div>';
+            container.innerHTML = '<div style="text-align:center; padding:50px; color:#aaa;"><i class="fas fa-check-double fa-3x"></i><p>Belum ada pesanan.</p></div>';
             return;
         }
 
         Object.keys(data).forEach(key => {
             const item = data[key];
             const isMawut = item.menu.toUpperCase().includes("MAWUT");
-            
-            // Logika Format Porsi (Contoh: 0.5 jadi ½, 1.0 jadi 1)
-            let rawPorsi = item.porsi / 2;
-            let formattedPorsi = rawPorsi.toString().replace(".5", " ½");
+            let porsiTeks = (item.porsi / 2).toString().replace(".5", " ½");
 
             container.innerHTML += `
                 <div class="order-card ${item.rasa}">
@@ -149,17 +176,13 @@
                         <span class="menu-name">${item.menu.toUpperCase()}</span>
                         <span class="label-rasa ${item.rasa === 'PEDAS' ? 'bg-pedas' : 'bg-biasa'}">${item.rasa}</span>
                     </div>
-                    
                     <span class="porsi-main">${item.porsi} PORSI</span>
-                    
                     ${isMawut ? `
                         <div class="mawut-instruction">
                             <i class="fas fa-users"></i> <b>TUGAS KOKI:</b><br>
-                            Koki Nasi Masak: <b>${formattedPorsi} Porsi</b><br>
-                            Koki Mie Masak: <b>${formattedPorsi} Porsi</b>
+                            Nasi: <b>${porsiTeks} porsi</b> | Mie: <b>${porsiTeks} porsi</b>
                         </div>
                     ` : ''}
-
                     <button class="btn-done" onclick="selesaiMasak('${key}')">SELESAI / ANGKAT</button>
                 </div>
             `;
@@ -178,7 +201,7 @@
         });
     }
 
-    // 4. REKAP
+    // 4. REKAP HARIAN
     db.ref('history').limitToLast(30).on('value', (snapshot) => {
         const data = snapshot.val();
         const container = document.getElementById('list-riwayat');
@@ -191,6 +214,7 @@
         }
     });
 
+    // NAVIGASI TAB
     function openTab(name, btn) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
